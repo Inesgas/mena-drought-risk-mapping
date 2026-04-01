@@ -12,6 +12,8 @@ Older draft notebooks have been archived under `archive/notebooks/` to keep the 
 - `archive/notebooks/drought_risk_mapping_MENA_portfolio_prototype.ipynb`: prototype with simulated data
 - `archive/notebooks/drought_risk_mapping_MENA.ipynb`: earlier prototype draft
 
+The repository also preserves a legacy `notebooks/` folder from the earlier GitHub history.
+
 ## What the project currently does
 
 The real-data workflow is built around:
