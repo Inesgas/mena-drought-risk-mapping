@@ -71,6 +71,7 @@ As you polish the notebook, save final assets into:
 ## Key strengths
 
 - Clear end-to-end story from satellite data to drought-risk classification
+- The baseline model now avoids direct label leakage by excluding NDVI-based label-construction variables from prediction features
 - Good portfolio positioning for climate, geospatial, and machine-learning roles
 - Explainable baseline model and transparent drought labeling logic
 - Strong upgrade path toward better boundaries, better labels, and better benchmarking
@@ -78,6 +79,7 @@ As you polish the notebook, save final assets into:
 ## Current limitations
 
 - The project is still notebook-first and not yet packaged as a reusable Python pipeline
+- The drought label is still a rule-based proxy derived from NDVI anomaly rather than an external drought event target
 - There are still archived overlapping notebooks from earlier drafting stages
 - The machine-learning validation is a baseline split, not yet a spatial or temporal backtesting design
 

@@ -89,6 +89,9 @@ I added the following files to make the project more professional and easier to 
 - Archived duplicate notebooks
   The overlapping draft notebooks were moved into `archive/notebooks/` so the project root now has one clear notebook entry point.
 
+- Leakage-aware model update
+  The primary notebook now excludes NDVI-based label-construction variables from the model feature set so the baseline classification is more methodologically honest.
+
 - outputs/README.md
 - data/README.md
 - assets/screenshots/.gitkeep
@@ -160,6 +163,7 @@ Main mapping approach:
 
 - The broad bounding-box grid is useful for a prototype, but it is not yet policy-grade geography.
 - The notebook now exports key portfolio assets, but the broader workflow is still notebook-centric rather than a reusable package or pipeline.
+- The drought labels are still anomaly-rule proxies rather than independent observed event labels.
 - Validation is basic and could be improved with stronger temporal or spatial testing.
 - Multiple notebooks still create ambiguity about the final intended version.
 
