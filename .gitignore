@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.python-version
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment and local config
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Geospatial and export artifacts that are usually generated locally
+outputs/figures/*.png
+outputs/figures/*.jpg
+outputs/maps/*.html
+outputs/tables/*.csv
+data/raw/
+data/interim/
