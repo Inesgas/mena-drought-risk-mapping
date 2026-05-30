@@ -41,6 +41,14 @@ notebooks/drought_risk_mapping_mena_real_data.ipynb
 
 This notebook runs the Earth Engine extraction, feature engineering, baseline model, and output export.
 
+## Project Review
+
+A short narrative review of the workflow is available in:
+
+```text
+PROJECT_REVIEW.md
+```
+
 ## Reusable Python Core
 
 The reusable pieces live under:
