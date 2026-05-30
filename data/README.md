@@ -1,8 +1,8 @@
-# Data Folder
+# Data
 
-Use this folder for project-specific data that should live alongside the notebooks.
+Use this folder for project-specific data that lives alongside the notebooks.
 
-Suggested layout:
+Folder layout:
 
 - `data/raw/` for downloaded or exported source data
 - `data/interim/` for cleaned intermediate tables

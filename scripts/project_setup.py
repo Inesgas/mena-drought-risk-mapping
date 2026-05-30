@@ -17,10 +17,7 @@ DIRECTORIES = [
 ]
 
 NOTEBOOKS = [
-    "drought_risk_mapping_MENA_real_data_portfolio.ipynb",
-    "archive/notebooks/drought_risk_mapping_mena_real_data.ipynb.ipynb",
-    "archive/notebooks/drought_risk_mapping_MENA_portfolio_prototype.ipynb",
-    "archive/notebooks/drought_risk_mapping_MENA.ipynb",
+    "notebooks/drought_risk_mapping_mena_real_data.ipynb",
 ]
 
 
@@ -48,20 +45,15 @@ def show_notebook_summary() -> None:
         else:
             print(f"  - {notebook} (missing)")
 
-    print("\nRecommended primary notebook:")
-    print("  - drought_risk_mapping_MENA_real_data_portfolio.ipynb")
-    print("Archived drafts are kept under archive/notebooks/")
+    print("\nPrimary notebook:")
+    print("  - notebooks/drought_risk_mapping_mena_real_data.ipynb")
 
 
 def main() -> None:
     print(f"Project root: {PROJECT_ROOT}")
     create_directories()
     show_notebook_summary()
-
-    print("\nSuggested next steps:")
-    print("  1. Install dependencies from requirements.txt")
-    print("  2. Run scripts/environment_check.py")
-    print("  3. Open the recommended notebook in Jupyter")
+    print("\nSetup complete.")
 
 
 if __name__ == "__main__":

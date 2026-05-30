@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mena-drought-risk-mapping"
+version = "0.1.0"
+description = "Drought-risk mapping workflow for the MENA region using Earth Engine satellite and climate data."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "earthengine-api",
+    "geemap",
+    "folium",
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "scikit-learn",
+    "jupyter",
+    "notebook",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

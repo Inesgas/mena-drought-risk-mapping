@@ -12,6 +12,7 @@ env/
 
 # Jupyter
 .ipynb_checkpoints/
+notebooks/outputs/
 
 # Environment and local config
 .env

@@ -1,11 +1,9 @@
-# Outputs Folder
+# Outputs
 
-Save reusable project outputs here so the repository tells a clear story.
+Generated project outputs are written here.
 
-Recommended subfolders:
+Subfolders:
 
 - `outputs/figures/` for PNG or JPG charts
 - `outputs/maps/` for HTML map exports
 - `outputs/tables/` for CSV outputs
-
-Keep only the strongest portfolio assets under version control.

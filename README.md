@@ -1,91 +1,90 @@
-# Drought Risk Mapping for the MENA Region
+# MENA Drought Risk Mapping
 
-This project demonstrates a portfolio-style geospatial machine-learning workflow for drought analysis in the Middle East and North Africa (MENA). The strongest notebook uses real Earth observation data from Google Earth Engine, engineers monthly drought features, trains a baseline Random Forest classifier, and prepares outputs that can be turned into maps, figures, and tables.
+This project maps drought-risk conditions across the Middle East and North Africa using Google Earth Engine satellite and climate data.
 
-## Recommended notebook
+It is the monitoring companion to:
 
-Use `drought_risk_mapping_MENA_real_data_portfolio.ipynb` as the primary notebook.
+- [MENA Drought Early Warning](https://github.com/Inesgas/mena-drought-early-warning)
 
-Older draft notebooks have been archived under `archive/notebooks/` to keep the root folder clean:
+This repository focuses on current drought-risk mapping. The early-warning repository extends the workflow into 1-month and 3-month forecasting.
 
-- `archive/notebooks/drought_risk_mapping_mena_real_data.ipynb.ipynb`: similar real-data variant with output-folder setup
-- `archive/notebooks/drought_risk_mapping_MENA_portfolio_prototype.ipynb`: prototype with simulated data
-- `archive/notebooks/drought_risk_mapping_MENA.ipynb`: earlier prototype draft
+## Project Question
 
-The repository also preserves a legacy `notebooks/` folder from the earlier GitHub history.
+Can monthly satellite and climate observations be transformed into a clear grid-based drought-risk map for the MENA region?
 
-## What the project currently does
+## Data Sources
 
-The real-data workflow is built around:
+The workflow uses:
 
-- MODIS MOD13A3 NDVI
-- CHIRPS daily rainfall
-- MODIS MOD11A2 land surface temperature
-- Google Earth Engine for remote-sensing access and aggregation
-- pandas and NumPy for tabular processing
-- scikit-learn for baseline classification
-- matplotlib and Folium for communication outputs
+- MODIS NDVI: `MODIS/061/MOD13A3`
+- CHIRPS rainfall: `UCSB-CHG/CHIRPS/DAILY`
+- MODIS land surface temperature: `MODIS/061/MOD11A2`
+- Google Earth Engine for data access and spatial aggregation
 
-## Current repository improvements
+## Workflow
 
-This repository now includes the standard files and folders the notebooks were implicitly expecting:
+1. Define the MENA study area.
+2. Build a regular grid over the region.
+3. Extract monthly NDVI, rainfall, and land-surface-temperature values.
+4. Convert Earth Engine outputs into a pandas table.
+5. Build climatologies, anomalies, rolling summaries, and drought classes.
+6. Train a Random Forest baseline using hydroclimate and context variables.
+7. Export figures, tables, and an interactive drought map.
 
-- `README.md`
-- `requirements.txt`
-- `.gitignore`
-- `scripts/project_setup.py`
-- `scripts/environment_check.py`
-- `outputs/`
-- `data/`
+## Main Notebook
+
+Open:
+
+```text
+notebooks/drought_risk_mapping_mena_real_data.ipynb
+```
+
+This notebook runs the Earth Engine extraction, feature engineering, baseline model, and output export.
+
+## Reusable Python Core
+
+The reusable pieces live under:
+
+```text
+src/mena_drought_risk_mapping/
+```
+
+They cover:
+
+- project configuration
+- month generation and output folders
+- drought class labels
+- feature engineering
+- temporal splitting and evaluation helpers
+
+## Setup
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python scripts/project_setup.py
+python scripts/environment_check.py
+python -m unittest discover -s tests
+```
+
+Authenticate Earth Engine before running the notebook extraction cells.
+
+## Outputs
+
+Generated outputs are written under:
+
+- `outputs/figures/`
+- `outputs/maps/`
+- `outputs/tables/`
 - `assets/screenshots/`
-- `PROJECT_DETAILS.txt`
 
-The main real-data notebook now saves core portfolio assets directly into the standard folders:
+Local raw/intermediate data and generated output files are ignored by Git.
 
-- confusion matrix figure
-- feature-importance figure
-- annual drought-share figure
-- NDVI vs rainfall anomaly scatter plot
-- latest predictions CSV
-- interactive HTML drought map
+## Method Notes
 
-## Quick start
-
-1. Install Python 3.10 or newer.
-2. Create and activate a virtual environment.
-3. Install dependencies with `pip install -r requirements.txt`.
-4. Run `python scripts/project_setup.py` to create the standard project folders if needed.
-5. Run `python scripts/environment_check.py` to check package availability.
-6. Start Jupyter and open `drought_risk_mapping_MENA_real_data_portfolio.ipynb`.
-7. Authenticate Earth Engine if your environment has not been initialized yet.
-
-## Expected outputs
-
-As you polish the notebook, save final assets into:
-
-- `outputs/figures/` for charts
-- `outputs/maps/` for HTML maps
-- `outputs/tables/` for CSV exports
-- `assets/screenshots/` for recruiter-friendly screenshots
-
-## Key strengths
-
-- Clear end-to-end story from satellite data to drought-risk classification
-- The baseline model now avoids direct label leakage by excluding NDVI-based label-construction variables from prediction features
-- Good portfolio positioning for climate, geospatial, and machine-learning roles
-- Explainable baseline model and transparent drought labeling logic
-- Strong upgrade path toward better boundaries, better labels, and better benchmarking
-
-## Current limitations
-
-- The project is still notebook-first and not yet packaged as a reusable Python pipeline
-- The drought label is still a rule-based proxy derived from NDVI anomaly rather than an external drought event target
-- There are still archived overlapping notebooks from earlier drafting stages
-- The machine-learning validation is a baseline split, not yet a spatial or temporal backtesting design
-
-## Next best upgrades
-
-1. Replace the simple bounding-box grid with administrative or agro-ecological boundaries.
-2. Add stronger validation and benchmark Random Forest against XGBoost.
-3. Move reusable functions into a small `src/` package when the workflow stabilizes.
-4. Rename the main notebook to a shorter final production name if you want a more polished public repo.
+- Drought classes are derived from NDVI anomaly thresholds.
+- The baseline model excludes NDVI-derived label-construction fields from predictors.
+- Random Forest is used as an interpretable tabular baseline.
+- The current spatial unit is a regular grid, not an administrative or agro-ecological boundary.
+- The drought label is a proxy label, not an external observed drought-event inventory.
