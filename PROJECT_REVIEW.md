@@ -29,7 +29,7 @@ flowchart LR
 | Monthly aggregation | Each dataset was summarized by grid cell and month. | A monthly table makes the workflow easier to model, compare, and map. |
 | Feature engineering | Climatologies, anomalies, and rolling summaries were created. | Drought is about departure from normal conditions, not only raw values in a single month. |
 | Drought labeling | NDVI anomaly thresholds were used to assign drought severity classes. | The label is transparent and tied directly to vegetation stress. |
-| Baseline modeling | A Random Forest model was trained using rainfall, temperature, seasonality, and location features. | This tests whether hydroclimate and context variables can explain the drought classes without directly reusing the NDVI label fields. |
+| Baseline modeling | A Random Forest model was trained using rainfall, temperature, seasonality, and location features, then evaluated on later months. | This tests whether hydroclimate and context variables can explain the drought classes without directly reusing the NDVI label fields or mixing future rows into training. |
 | Output export | The notebook exports figures, tables, and an interactive map. | The results become easier to inspect outside the notebook. |
 
 ## Figure 2. Data-To-Output Structure
@@ -71,14 +71,14 @@ flowchart TB
 
 The label comes from NDVI anomaly, so the model avoids NDVI and NDVI-derived fields as predictors. This is an important design choice. It keeps the model from simply relearning the rule that created the label.
 
-The Random Forest baseline uses rainfall, rainfall anomaly, rolling rainfall, land surface temperature, rolling temperature, month, latitude, and longitude. The model is not treated as an operational drought system. It is a baseline that shows how the mapped classes relate to hydroclimate and spatial context.
+The Random Forest baseline uses rainfall, rainfall anomaly, rolling rainfall, land surface temperature, rolling temperature, month, latitude, and longitude. It is evaluated on the later part of the record, from `2023-01-01` onward. The model is not treated as an operational drought system. It is a baseline that shows how the mapped classes relate to hydroclimate and spatial context.
 
 | Model Element | Choice | Reason |
 |---|---|---|
 | Target | NDVI-anomaly drought class | Transparent vegetation-stress proxy. |
 | Model | Random Forest | Handles tabular nonlinear patterns and gives feature importance. |
 | Excluded predictors | NDVI and NDVI-anomaly fields | Avoids direct label leakage. |
-| Evaluation output | Classification report and confusion matrix | Shows class-level behavior, not only a single score. |
+| Evaluation output | Later-period classification report and confusion matrix | Shows class-level behavior, not only a single score. |
 
 ## Output Review
 
@@ -94,6 +94,6 @@ The Random Forest baseline uses rainfall, rainfall anomaly, rolling rainfall, la
 
 The strongest part of the project is the full path from observed satellite data to mapped drought-risk output. It does not stop at a model score; it produces a table, figures, and an interactive map.
 
-The main limitation is the label. NDVI anomaly is a useful vegetation-stress proxy, but it is not the same as an independent drought-event record. The grid is also broad, so the map is better read as a regional analytical prototype than a policy boundary product.
+The main limitation is the label. NDVI anomaly is a useful vegetation-stress proxy, but it is not the same as an independent drought-event record. The grid is also broad, so the map is better read as a regional analytical prototype than a policy boundary product. The first extraction also keeps MODIS quality filtering light and uses interactive table collection, which is fine for a compact prototype but should be strengthened for larger production runs.
 
 The project is now structured around one main notebook, a short reusable Python core, a methodology note, and tests for the feature and modeling helpers. That gives the first project a cleaner base before the second project extends the idea into forecasting.

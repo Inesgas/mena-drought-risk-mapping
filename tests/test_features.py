@@ -42,6 +42,7 @@ class FeatureTests(unittest.TestCase):
 
         self.assertAlmostEqual(jan_2021["ndvi_climatology"], 0.30)
         self.assertAlmostEqual(jan_2021["ndvi_anomaly"], -0.10)
+        self.assertIn("ndvi_anom_6m", features.columns)
         self.assertEqual(jan_2021["drought_class"], 2)
 
     def test_validate_feature_input_reports_missing_columns(self):

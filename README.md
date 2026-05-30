@@ -28,7 +28,7 @@ The workflow uses:
 3. Extract monthly NDVI, rainfall, and land-surface-temperature values.
 4. Convert Earth Engine outputs into a pandas table.
 5. Build climatologies, anomalies, rolling summaries, and drought classes.
-6. Train a Random Forest baseline using hydroclimate and context variables.
+6. Train a Random Forest baseline using hydroclimate and context variables, then test it on later months.
 7. Export figures, tables, and an interactive drought map.
 
 ## Main Notebook
@@ -93,6 +93,7 @@ Local raw/intermediate data and generated output files are ignored by Git.
 
 - Drought classes are derived from NDVI anomaly thresholds.
 - The baseline model excludes NDVI-derived label-construction fields from predictors.
-- Random Forest is used as an interpretable tabular baseline.
+- Random Forest is used as an interpretable tabular baseline and is evaluated on a later-period test set.
 - The current spatial unit is a regular grid, not an administrative or agro-ecological boundary.
 - The drought label is a proxy label, not an external observed drought-event inventory.
+- The notebook keeps the first extraction compact; larger runs should move the Earth Engine table export out of interactive memory.

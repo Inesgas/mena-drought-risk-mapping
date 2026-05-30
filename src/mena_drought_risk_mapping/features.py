@@ -98,6 +98,7 @@ def add_drought_features(
         )
 
     feature_df = _add_grouped_rolling_mean(feature_df, "ndvi_anomaly", 3, "ndvi_anom_3m")
+    feature_df = _add_grouped_rolling_mean(feature_df, "ndvi_anomaly", 6, "ndvi_anom_6m")
     feature_df = _add_grouped_rolling_mean(feature_df, "rainfall", 3, "rainfall_3m")
     feature_df = _add_grouped_rolling_mean(feature_df, "lst_c", 3, "lst_3m")
 

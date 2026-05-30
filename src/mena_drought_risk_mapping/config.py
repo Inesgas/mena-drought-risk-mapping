@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime, timedelta
 from pathlib import Path
 
 
@@ -14,6 +15,11 @@ class ProjectConfig:
     ndvi_dataset_id: str = "MODIS/061/MOD13A3"
     rainfall_dataset_id: str = "UCSB-CHG/CHIRPS/DAILY"
     lst_dataset_id: str = "MODIS/061/MOD11A2"
+
+    @property
+    def extraction_end_date(self) -> str:
+        end_date = datetime.strptime(self.end_date, "%Y-%m-%d").date()
+        return (end_date + timedelta(days=1)).isoformat()
 
     @property
     def project_root(self) -> Path:
