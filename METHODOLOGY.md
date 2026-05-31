@@ -32,18 +32,35 @@ The feature workflow creates:
 - NDVI anomaly
 - rainfall anomaly
 - rolling 3-month summaries for NDVI anomaly, rainfall, and temperature
+- rolling 3-month anomaly summaries for rainfall and land-surface temperature
 - a rolling 6-month NDVI-anomaly summary
 - drought class labels from NDVI anomaly thresholds
 
 The drought label is a proxy label derived from vegetation stress, not an external observed drought-event inventory.
 
+The reusable feature workflow can build climatologies from a fixed reference period through `climatology_reference_end_date`. This is recommended for evaluation runs so later test months do not influence the anomaly baseline.
+
 ## Modeling
 
 The baseline model is a Random Forest classifier evaluated on later months from `2023-01-01` onward.
 
-The model feature set excludes NDVI and NDVI-anomaly fields used to construct the label. It uses rainfall, rainfall anomaly, rainfall rolling summaries, temperature, temperature rolling summaries, month, latitude, and longitude.
+The model feature set excludes NDVI and NDVI-anomaly fields used to construct the label. It uses rainfall, rainfall anomaly, rainfall rolling summaries, temperature, temperature anomaly summaries, month, latitude, and longitude.
+
+The reusable modeling helpers also include a spatial cell holdout split for checking whether a model generalizes to unseen grid cells, not only later months from known cells.
+
+Prediction-confidence helpers can export predicted class probability, probability margin, entropy, and a high/medium/low confidence label for map-ready tables.
 
 The first version does not mask MODIS quality-assurance bands. That keeps the workflow compact, but a stricter production version should add dataset-specific quality filtering before aggregation.
+
+The reusable Earth Engine helper `mask_mod13a3_detailed_qa` is available for this stricter version. It masks MODIS vegetation-index pixels using the `DetailedQA` band before NDVI aggregation.
+
+## Composite And Validation Enhancements
+
+The project now includes reusable helpers for a composite drought score. The composite score combines available vegetation, rainfall, heat, soil-moisture, and evapotranspiration-deficit evidence after converting each component to a stress score between `0` and `1`.
+
+The project also includes crop-season weighting helpers. These allow drought severity to be weighted more strongly during active growing months.
+
+Independent validation helpers can classify SPEI values into drought classes and summarize agreement between model or composite classes and an external drought reference.
 
 ## Outputs
 

@@ -43,7 +43,32 @@ class FeatureTests(unittest.TestCase):
         self.assertAlmostEqual(jan_2021["ndvi_climatology"], 0.30)
         self.assertAlmostEqual(jan_2021["ndvi_anomaly"], -0.10)
         self.assertIn("ndvi_anom_6m", features.columns)
+        self.assertIn("rainfall_anom_3m", features.columns)
+        self.assertIn("lst_c_anom_3m", features.columns)
         self.assertEqual(jan_2021["drought_class"], 2)
+
+    def test_reference_end_date_prevents_future_climatology_leakage(self):
+        df = pd.DataFrame(
+            {
+                "cell_id": [1, 1],
+                "date": ["2020-01-01", "2021-01-01"],
+                "ndvi": [0.40, 0.20],
+                "rainfall": [10.0, 30.0],
+                "lst_c": [25.0, 35.0],
+                "lat": [20.0, 20.0],
+                "lon": [30.0, 30.0],
+            }
+        )
+
+        features = add_drought_features(
+            df,
+            ProjectConfig(),
+            climatology_reference_end_date="2020-12-31",
+        )
+        jan_2021 = features.loc[features["date"] == pd.Timestamp("2021-01-01")].iloc[0]
+
+        self.assertAlmostEqual(jan_2021["ndvi_climatology"], 0.40)
+        self.assertAlmostEqual(jan_2021["ndvi_anomaly"], -0.20)
 
     def test_validate_feature_input_reports_missing_columns(self):
         with self.assertRaisesRegex(ValueError, "lst_c"):
@@ -65,6 +90,9 @@ class FeatureTests(unittest.TestCase):
         self.assertNotIn("ndvi", features)
         self.assertNotIn("ndvi_anomaly", features)
         self.assertIn("rainfall_anomaly", features)
+        self.assertIn("rainfall_anom_3m", features)
+        self.assertIn("lst_c_anomaly", features)
+        self.assertIn("lst_c_anom_3m", features)
 
 
 if __name__ == "__main__":

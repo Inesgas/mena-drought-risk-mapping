@@ -100,7 +100,13 @@ def add_drought_features(
     feature_df = _add_grouped_rolling_mean(feature_df, "ndvi_anomaly", 3, "ndvi_anom_3m")
     feature_df = _add_grouped_rolling_mean(feature_df, "ndvi_anomaly", 6, "ndvi_anom_6m")
     feature_df = _add_grouped_rolling_mean(feature_df, "rainfall", 3, "rainfall_3m")
+    feature_df = _add_grouped_rolling_mean(
+        feature_df, "rainfall_anomaly", 3, "rainfall_anom_3m"
+    )
     feature_df = _add_grouped_rolling_mean(feature_df, "lst_c", 3, "lst_3m")
+    feature_df = _add_grouped_rolling_mean(
+        feature_df, "lst_c_anomaly", 3, "lst_c_anom_3m"
+    )
 
     feature_df["drought_class"] = feature_df["ndvi_anomaly"].apply(classify_drought_from_ndvi)
     feature_df["drought_label"] = feature_df["drought_class"].map(config.class_names)
@@ -113,8 +119,11 @@ def default_model_features() -> list[str]:
         "rainfall",
         "rainfall_3m",
         "rainfall_anomaly",
+        "rainfall_anom_3m",
         "lst_c",
         "lst_3m",
+        "lst_c_anomaly",
+        "lst_c_anom_3m",
         "month",
         "lat",
         "lon",

@@ -49,6 +49,30 @@ A short narrative review of the workflow is available in:
 PROJECT_REVIEW.md
 ```
 
+The full plain-language project report is available in:
+
+```text
+PROJECT_REPORT.md
+```
+
+The full research roadmap is available in:
+
+```text
+RESEARCH_ROADMAP.md
+```
+
+Earth Engine authentication and verification steps are available in:
+
+```text
+AUTHENTICATION_AND_VERIFICATION.md
+```
+
+Novelty and enhancement opportunities are summarized in:
+
+```text
+NOVELTY_AND_ENHANCEMENT.md
+```
+
 ## Reusable Python Core
 
 The reusable pieces live under:
@@ -64,6 +88,12 @@ They cover:
 - drought class labels
 - feature engineering
 - temporal splitting and evaluation helpers
+- spatial holdout splitting for generalization checks
+- composite drought scoring
+- crop-season weighting
+- independent SPEI-style validation helpers
+- prediction-confidence outputs
+- Earth Engine MODIS quality-mask helpers
 
 ## Setup
 
@@ -77,6 +107,12 @@ python -m unittest discover -s tests
 ```
 
 Authenticate Earth Engine before running the notebook extraction cells.
+
+After exporting an extracted CSV table, the research enhancements can be applied with:
+
+```bash
+python scripts/apply_research_enhancements.py --input data/processed/extracted_monthly_grid.csv --output data/processed/enhanced_monthly_grid.csv --climatology-reference-end-date 2022-12-31 --active-months 11,12,1,2,3,4
+```
 
 ## Outputs
 
@@ -93,6 +129,7 @@ Local raw/intermediate data and generated output files are ignored by Git.
 
 - Drought classes are derived from NDVI anomaly thresholds.
 - The baseline model excludes NDVI-derived label-construction fields from predictors.
+- The reusable feature workflow supports a fixed climatology reference period to reduce evaluation leakage.
 - Random Forest is used as an interpretable tabular baseline and is evaluated on a later-period test set.
 - The current spatial unit is a regular grid, not an administrative or agro-ecological boundary.
 - The drought label is a proxy label, not an external observed drought-event inventory.
